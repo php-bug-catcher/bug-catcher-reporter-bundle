@@ -18,7 +18,7 @@ class Project {
 	#[ORM\Column(length: 255)]
 	private ?string $code = null;
 	#[ORM\Column(length: 255)]
-	private ?string $name = null;
+	private ?string $name = "null";
 
 	public function __construct() {}
 

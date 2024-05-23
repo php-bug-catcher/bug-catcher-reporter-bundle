@@ -36,7 +36,7 @@ class DoctrineWriter implements WriterInterface {
 		$em->clear();
 		$project = $em->getRepository(Project::class)->findOneBy(['code' => $this->project]);
 		if (!$project) {
-			throw new Exception("Project from BugCatcher not found");
+			throw new Exception("Project '{$this->project}' not found");
 		}
 		$record = new LogRecord(
 			$project,

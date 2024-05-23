@@ -3,9 +3,9 @@
 namespace BugCatcher\Reporter\Entity;
 
 use App\Repository\LogRecordRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Monolog\DateTimeImmutable;
 
 #[ORM\Entity()]
 class LogRecord extends Record {

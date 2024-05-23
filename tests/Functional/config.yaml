@@ -1,11 +1,15 @@
 parameters:
+services:
+    app.chain_uri_catcher:
+        class: BugCatcher\Reporter\UrlCatcher\ChainUriCatcher
+        arguments:
+            $uriCatchers:
+                - '@bug_catcher.uri_catcher.http_catcher'
+                - '@bug_catcher.uri_catcher.console_catcher'
 bug_catcher:
     connection: 'default'
     project: 'dev'
-    uri_cather:
-        chain:
-            - 'bug_catcher.uri_catcher.console_catcher'
-            - 'bug_catcher.uri_catcher.http_catcher'
+    uri_cather: 'app.chain_uri_catcher'
 
 doctrine:
     dbal:

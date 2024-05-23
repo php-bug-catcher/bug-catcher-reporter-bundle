@@ -9,6 +9,7 @@ namespace BugCatcher\Reporter\DependencyInjection;
 
 use BugCatcher\Reporter\Writer\DoctrineWriter;
 use BugCatcher\Reporter\Writer\HttpWriter;
+use Exception;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -16,6 +17,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Uid\Factory\UuidFactory;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BugCatcherReporterExtension extends Extension {
@@ -37,6 +39,9 @@ class BugCatcherReporterExtension extends Extension {
 			$doctrineWriter->setArgument(2, $config['project']);
 			$doctrineWriter->setArgument(3, $config['min_level']);
 		} else {
+			if (!class_exists(UuidFactory::class)) {
+				throw new Exception("Please install symfony/uid");
+			}
 			$container->removeDefinition('bug_catcher.writer.http_writer');
 			$writer = 'bug_catcher.writer.doctrine_writer';
 
