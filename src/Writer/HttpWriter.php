@@ -7,6 +7,7 @@
  */
 namespace BugCatcher\Reporter\Writer;
 
+use BugCatcher\Reporter\UrlCatcher\UriCatcherInterface;
 use Monolog\LogRecord;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -14,10 +15,10 @@ class HttpWriter implements WriterInterface {
 
 
 	public function __construct(
-		private readonly string     $apiUrl,
-		private readonly string     $project,
-		private readonly string     $minLevel,
-		private HttpClientInterface $client,
+		private readonly HttpClientInterface $client,
+		private readonly UriCatcherInterface $uriCatcher,
+		private readonly string              $project,
+		private readonly string              $minLevel,
 	) {}
 
 	function write(LogRecord $record): void {
@@ -25,11 +26,15 @@ class HttpWriter implements WriterInterface {
 			return;
 		}
 		$data = [
-
+			"message"     => $record->message,
+			"level"       => $record->level->value,
+			"projectCode" => $this->project,
+			"requestUri"  => $this->uriCatcher->getUri(),
 		];
-		$this->client->request("POST", $this->apiUrl, [
+		$this->client->request("POST", "/api/log_records", [
 			'headers' => [
-				'Content-Type' => 'text/plain',
+				'Content-Type' => 'application/json',
+				'accept'       => 'application/json',
 			],
 			"body"    => json_encode($data),
 		]);

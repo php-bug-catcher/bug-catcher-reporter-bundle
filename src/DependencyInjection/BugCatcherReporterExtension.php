@@ -26,27 +26,31 @@ class BugCatcherReporterExtension extends Extension {
 		$configuration = $this->getConfiguration($configs, $container);
 		$config        = $this->processConfiguration($configuration, $configs);
 
-		if ($config['api_url'] !== null) {
+		if ($config['http_client'] !== null) {
+			$container->removeDefinition('bug_catcher.writer.doctrine_writer');
 			$writer = 'bug_catcher.writer.http_writer';
+
+			$doctrineWriter = $container->getDefinition('bug_catcher.writer.http_writer');
+			$doctrineWriter->setArgument(0, new Reference($config['http_client']));
+			$doctrineWriter->setArgument(1, new Reference($config['uri_cather']));
+			$doctrineWriter->setArgument(2, $config['project']);
+			$doctrineWriter->setArgument(3, $config['min_level']);
 		} else {
+			$container->removeDefinition('bug_catcher.writer.http_writer');
 			$writer = 'bug_catcher.writer.doctrine_writer';
+
+			$doctrineWriter = $container->getDefinition('bug_catcher.writer.doctrine_writer');
+			$doctrineWriter->setArgument(0, new Reference('doctrine'));
+			$doctrineWriter->setArgument(1, new Reference($config['uri_cather']));
+			$doctrineWriter->setArgument(2, $config['connection']);
+			$doctrineWriter->setArgument(3, $config['project']);
+			$doctrineWriter->setArgument(4, $config['min_level']);
 		}
 		if ($config['writer'] !== null) {
 			$writer = $config['writer'];
 		}
 		$container->setAlias('bug_catcher.writer', $writer);
 
-		$config = $this->processConfiguration($configuration, $configs);
-
-		$doctrineWriter = $container->getDefinition('bug_catcher.writer.doctrine_writer');
-		$doctrineWriter->setArgument(1, $config['connection']);
-		$doctrineWriter->setArgument(2, $config['project']);
-		$doctrineWriter->setArgument(3, $config['min_level']);
-
-		$doctrineWriter = $container->getDefinition('bug_catcher.writer.http_writer');
-		$doctrineWriter->setArgument(0, $config['api_url']);
-		$doctrineWriter->setArgument(1, $config['project']);
-		$doctrineWriter->setArgument(2, $config['min_level']);
 	}
 
 	public function getAlias(): string {

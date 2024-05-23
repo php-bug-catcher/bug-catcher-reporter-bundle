@@ -9,19 +9,20 @@ namespace BugCatcher\Reporter\Writer;
 
 use BugCatcher\Reporter\Entity\LogRecord;
 use BugCatcher\Reporter\Entity\Project;
+use BugCatcher\Reporter\UrlCatcher\UriCatcherInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord as MonologLogRecord;
 
 class DoctrineWriter implements WriterInterface {
 
 
 	public function __construct(
-		private readonly ManagerRegistry $registry,
-		private readonly string          $connection,
-		private readonly string          $project,
-		private readonly string          $minLevel,
+		private readonly ManagerRegistry     $registry,
+		private readonly UriCatcherInterface $uriCatcher,
+		private readonly string              $connection,
+		private readonly string              $project,
+		private readonly string              $minLevel,
 	) {}
 
 	function write(MonologLogRecord $record): void {
@@ -37,7 +38,12 @@ class DoctrineWriter implements WriterInterface {
 		if (!$project) {
 			throw new Exception("Project from BugCatcher not found");
 		}
-		$record = new LogRecord($project, $record->message, $record->level->value, $requestedUri);
+		$record = new LogRecord(
+			$project,
+			$record->message,
+			$record->level->value,
+			$this->uriCatcher->getUri()
+		);
 		$em->persist($record);
 		$em->flush();
 	}

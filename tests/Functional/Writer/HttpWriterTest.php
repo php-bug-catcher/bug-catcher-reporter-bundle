@@ -7,25 +7,28 @@
  */
 namespace BugCatcher\Reporter\Tests\Functional\Writer;
 
+use BugCatcher\Reporter\Tests\Functional\KernelTestCase;
 use BugCatcher\Reporter\Writer\HttpWriter;
+use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class HttpWriterTest extends KernelTestCase {
 
-//	public function testSendLog(): void {
-//		$kernel = self::bootKernel();
-//		$writer = $kernel->getContainer()->get(HttpWriter::class);
-//		$this->assertInstanceOf(HttpWriter::class,$writer);
-//
-//		$record = new LogRecord(
-//			new \DateTimeImmutable(),
-//			"default",
-//			Level::Critical,
-//			"Exception:"
-//		);
-//		$writer->write($record);
-//		$this->assertTrue(true);
-//	}
+	public function testSendLog(): void {
+		$kernel = self::bootKernel([
+			"http_client" => 'bug_catcher.client',
+		]);
+		$writer = $kernel->getContainer()->get('bug_catcher.writer.http_writer');
+		$this->assertInstanceOf(HttpWriter::class, $writer);
+
+		$record = new LogRecord(
+			new DateTimeImmutable(),
+			"default",
+			Level::Critical,
+			"Exception:"
+		);
+		$writer->write($record);
+		$this->assertTrue(true);
+	}
 }

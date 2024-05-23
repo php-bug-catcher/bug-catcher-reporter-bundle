@@ -5,18 +5,19 @@
         https://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-
         <!-- Explicitly configure the service -->
         <service id="bug_catcher.handler" class="BugCatcher\Reporter\Service\BugCatcherHandler" public="true">
             <argument type="service" id="bug_catcher.writer"/>
         </service>
         <service id="BugCatcher\Reporter\Service\BugCatcherHandler" alias="bug_catcher.handler" public="false"/>
         <service id="bug_catcher.writer" alias="bug_catcher.writer.doctrine_writer"/>
-        <service id="bug_catcher.writer.doctrine_writer" class="BugCatcher\Reporter\Writer\DoctrineWriter">
-            <argument type="service" id="doctrine" index="0"/>
+
+        <service id="bug_catcher.writer.doctrine_writer" class="BugCatcher\Reporter\Writer\DoctrineWriter" public="true"/>
+        <service id="bug_catcher.writer.http_writer" class="BugCatcher\Reporter\Writer\HttpWriter" public="true"/>
+
+        <service id="bug_catcher.uri_catcher.http_catcher" class="BugCatcher\Reporter\UrlCatcher\HttpUriCatcher" public="true">
+            <argument type="service" id="request_stack"/>
         </service>
-        <service id="bug_catcher.writer.http_writer" class="BugCatcher\Reporter\Writer\HttpWriter">
-            <argument type="service" id="http_client" index="3"/>
-        </service>
+        <service id="bug_catcher.uri_catcher.console_catcher" class="BugCatcher\Reporter\UrlCatcher\ConsoleUriCatcher" public="true"/>
     </services>
 </container>

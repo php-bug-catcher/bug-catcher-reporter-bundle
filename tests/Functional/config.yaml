@@ -1,6 +1,8 @@
 parameters:
 bug_catcher:
     connection: 'default'
+    project: 'dev'
+    uri_cather: 'bug_catcher.uri_catcher.console_catcher'
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
@@ -27,6 +29,12 @@ doctrine:
                 alias: App
         controller_resolver:
             auto_mapping: true
+framework:
+    http_client:
+        scoped_clients:
+            bug_catcher.client:
+                base_uri: 'https://127.0.0.1:8000'
+                headers:
 when@test:
     doctrine:
         dbal:

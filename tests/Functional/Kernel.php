@@ -13,12 +13,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
 class Kernel extends BaseKernel {
-	use MicroKernelTrait;
+	use MicroKernelTrait {
+		registerContainerConfiguration as registerContainerConfigurationTrait;
+	}
 
 
 	private array $configFiles = [];
 
-	public function __construct(private $options) {
+	public function __construct(private array $options) {
 		parent::__construct('test', true);
 		$this->addConfigFile(__DIR__ . '/config.yaml');
 	}
@@ -33,6 +35,7 @@ class Kernel extends BaseKernel {
 	}
 
 	public function registerContainerConfiguration(LoaderInterface $loader): void {
+		$this->registerContainerConfigurationTrait($loader);
 		$loader->load(function (ContainerBuilder $container) use ($loader) {
 			foreach ($this->configFiles as $path) {
 				$loader->load($path);

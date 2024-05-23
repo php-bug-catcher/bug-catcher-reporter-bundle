@@ -1,5 +1,5 @@
 /vendor/
 composer.lock
 .idea
-/tests/cache/
 /var/
+.phpunit.result.cache
