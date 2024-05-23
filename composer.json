@@ -6,6 +6,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=8.1",
+        "symfony/dependency-injection": "^7.0",
         "symfony/framework-bundle": "^5.4|^6.4|^7.0",
         "symfony/monolog-bundle": "^3.10"
     },
@@ -23,7 +24,13 @@
         }
     },
     "require-dev": {
+        "doctrine/common": "^3.4",
+        "doctrine/doctrine-bundle": "^2.12",
+        "phpunit/phpunit": "^9.5",
+        "symfony/dotenv": "^7.0",
         "symfony/http-client": "^7.0",
-        "symfony/orm-pack": "^2.4"
+        "symfony/orm-pack": "^2.4",
+        "symfony/phpunit-bridge": "^7.0",
+        "symfony/yaml": "^7.0"
     }
 }

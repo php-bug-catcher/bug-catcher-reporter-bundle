@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Explicitly configure the service -->
+        <service id="bug_catcher.handler" class="BugCatcher\Reporter\Service\BugCatcherHandler" public="true">
+            <argument type="service" id="bug_catcher.writer"/>
+        </service>
+        <service id="BugCatcher\Reporter\Service\BugCatcherHandler" alias="bug_catcher.handler" public="false"/>
+        <service id="bug_catcher.writer" alias="bug_catcher.writer.doctrine_writer"/>
+        <service id="bug_catcher.writer.doctrine_writer" class="BugCatcher\Reporter\Writer\DoctrineWriter">
+            <argument type="service" id="doctrine" index="0"/>
+        </service>
+        <service id="bug_catcher.writer.http_writer" class="BugCatcher\Reporter\Writer\HttpWriter">
+            <argument type="service" id="http_client" index="3"/>
+        </service>
+    </services>
+</container>

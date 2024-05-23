@@ -17,6 +17,8 @@ class Project {
 
 	#[ORM\Column(length: 255)]
 	private ?string $code = null;
+	#[ORM\Column(length: 255)]
+	private ?string $name = null;
 
 	public function __construct() {}
 
@@ -26,6 +28,12 @@ class Project {
 
 	public function getCode(): ?string {
 		return $this->code;
+	}
+
+	public function setCode(?string $code): self {
+		$this->code = $code;
+
+		return $this;
 	}
 
 }

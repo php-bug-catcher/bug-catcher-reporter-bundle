@@ -14,7 +14,7 @@ use Exception;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord as MonologLogRecord;
 
-abstract class DoctrineWriter implements WriterInterface {
+class DoctrineWriter implements WriterInterface {
 
 
 	public function __construct(
@@ -24,7 +24,7 @@ abstract class DoctrineWriter implements WriterInterface {
 		private readonly string          $minLevel,
 	) {}
 
-	function write(MonologLogRecord $record, ?string $requestedUri): void {
+	function write(MonologLogRecord $record): void {
 		if ($record->level->value < $this->minLevel) {
 			return;
 		}

@@ -20,7 +20,7 @@ class HttpWriter implements WriterInterface {
 		private HttpClientInterface $client,
 	) {}
 
-	function write(LogRecord $record, ?string $requestedUri): void {
+	function write(LogRecord $record): void {
 		if ($record->level->value < $this->minLevel) {
 			return;
 		}
