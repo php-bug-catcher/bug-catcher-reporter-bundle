@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 /**
  * @link https://symfony.com/doc/current/bundles/best_practices.html
  */
-class Reporter extends AbstractBundle
+class ReporterBundle extends AbstractBundle
 {
     public function configure(DefinitionConfigurator $definition) : void
     {

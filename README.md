@@ -35,6 +35,6 @@ in the `config/bundles.php` file of your project:
 
 return [
     // ...
-    BugCatcher\Reporter\Reporter::class => ['all' => true],
+    BugCatcher\Reporter\ReporterBundle::class => ['all' => true],
 ];
 ```
