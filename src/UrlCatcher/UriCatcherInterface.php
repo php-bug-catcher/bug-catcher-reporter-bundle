@@ -9,4 +9,6 @@ namespace BugCatcher\Reporter\UrlCatcher;
 
 interface UriCatcherInterface {
 	public function getUri(): string;
+
+	public function isSupported(): bool;
 }

@@ -18,10 +18,10 @@ class Configuration implements ConfigurationInterface {
 		$rootNode
 			->children()
 			->scalarNode("project")->isRequired()->end()
-			->scalarNode("uri_cather")->isRequired()->end()
 			->integerNode("min_level")->defaultValue(500)->end()
 			->scalarNode("http_client")->defaultNull()->end()
 			->scalarNode("connection")->defaultValue("default")->end()
+			->scalarNode("uri_cather")->defaultNull()->end()
 			->scalarNode("writer")->defaultNull()->end()
 			->end();
 

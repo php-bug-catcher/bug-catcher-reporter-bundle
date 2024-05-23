@@ -2,7 +2,11 @@ parameters:
 bug_catcher:
     connection: 'default'
     project: 'dev'
-    uri_cather: 'bug_catcher.uri_catcher.console_catcher'
+    uri_cather:
+        chain:
+            - 'bug_catcher.uri_catcher.console_catcher'
+            - 'bug_catcher.uri_catcher.http_catcher'
+
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'

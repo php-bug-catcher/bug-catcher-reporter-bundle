@@ -28,4 +28,8 @@ class ConsoleUriCatcher implements UriCatcherInterface {
 
 		return $commandName;
 	}
+
+	public function isSupported(): bool {
+		return 'cli' === PHP_SAPI;
+	}
 }

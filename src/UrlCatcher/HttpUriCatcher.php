@@ -23,4 +23,8 @@ class HttpUriCatcher implements UriCatcherInterface {
 
 		return $request->getSchemeAndHttpHost() . $request->getRequestUri()??"";
 	}
+
+	public function isSupported(): bool {
+		return $this->requestStack->getMainRequest() !== null;
+	}
 }

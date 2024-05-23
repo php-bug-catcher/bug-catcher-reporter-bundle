@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BugCatcherReporterExtension extends Extension {
@@ -50,6 +51,10 @@ class BugCatcherReporterExtension extends Extension {
 			$writer = $config['writer'];
 		}
 		$container->setAlias('bug_catcher.writer', $writer);
+
+		if (class_exists(RequestStack::class)) {
+			$container->removeDefinition('bug_catcher.url_catcher.console_uri_catcher');
+		}
 
 	}
 
