@@ -8,6 +8,7 @@
 namespace BugCatcher\Reporter\Writer;
 
 use BugCatcher\Reporter\UrlCatcher\UriCatcherInterface;
+use Exception;
 use Monolog\LogRecord;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -31,12 +32,15 @@ class HttpWriter implements WriterInterface {
 			"projectCode" => $this->project,
 			"requestUri"  => $this->uriCatcher->getUri(),
 		];
-		$this->client->request("POST", "/api/log_records", [
+		$response = $this->client->request("POST", "/api/log_records", [
 			'headers' => [
 				'Content-Type' => 'application/json',
 				'accept'       => 'application/json',
 			],
 			"body"    => json_encode($data),
 		]);
+		if ($response->getStatusCode() !== 201) {
+			throw new Exception("Error during sending log record to BugCatcher");
+		}
 	}
 }
