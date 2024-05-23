@@ -40,7 +40,7 @@ class HttpWriter implements WriterInterface {
 			"body"    => json_encode($data),
 		]);
 		if ($response->getStatusCode() !== 201) {
-			throw new Exception("Error during sending log record to BugCatcher");
+			throw new Exception("Error during sending log record to BugCatcher.\n" . $response->getContent(false));
 		}
 	}
 }
