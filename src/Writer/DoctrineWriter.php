@@ -28,6 +28,9 @@ class DoctrineWriter implements WriterInterface {
 	) {}
 
 	function write(MonologLogRecord $record): void {
+		if (!class_exists(Symfony\Component\Uid\Factory\UuidFactory::class)) {
+			throw new Exception("Please install symfony/uid package");
+		}
 		if ($record->level->value < $this->minLevel) {
 			return;
 		}
