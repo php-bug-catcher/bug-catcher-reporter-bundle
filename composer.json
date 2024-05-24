@@ -10,7 +10,8 @@
         "monolog/monolog": "^3.0",
         "symfony/dependency-injection": "^5.4|^6.4|^7.0",
         "symfony/framework-bundle": "^5.4|^6.4|^7.0",
-        "symfony/monolog-bundle": "^3.10"
+        "symfony/monolog-bundle": "^3.10",
+        "symfony/uid": "^7.0"
     },
     "config": {
         "sort-packages": true
@@ -33,7 +34,6 @@
         "symfony/http-client": "^5.4|^6.4|^7.0",
         "symfony/orm-pack": "^2.4",
         "symfony/phpunit-bridge": "^5.4|^6.4|^7.0",
-        "symfony/uid": "^7.0",
         "symfony/yaml": "^5.4|^6.4|^7.0"
     }
 }
