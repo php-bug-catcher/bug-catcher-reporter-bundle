@@ -38,6 +38,7 @@ class BugCatcherReporterExtension extends Extension {
 			$doctrineWriter->setArgument(1, new Reference($config['uri_cather']));
 			$doctrineWriter->setArgument(2, $config['project']);
 			$doctrineWriter->setArgument(3, $config['min_level']);
+			$doctrineWriter->setArgument(4, $config['stack_trace']);
 		} else {
 			if (!class_exists(UuidFactory::class)) {
 				throw new Exception("Please install symfony/uid");
@@ -51,6 +52,7 @@ class BugCatcherReporterExtension extends Extension {
 			$doctrineWriter->setArgument(2, $config['connection']);
 			$doctrineWriter->setArgument(3, $config['project']);
 			$doctrineWriter->setArgument(4, $config['min_level']);
+			$doctrineWriter->setArgument(5, $config['stack_trace']);
 		}
 		if ($config['writer'] !== null) {
 			$writer = $config['writer'];

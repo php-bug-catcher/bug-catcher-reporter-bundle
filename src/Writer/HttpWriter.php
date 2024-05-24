@@ -13,24 +13,30 @@ use Monolog\LogRecord;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class HttpWriter implements WriterInterface {
-
+	use CollectCodeFrame;
 
 	public function __construct(
 		private readonly HttpClientInterface $client,
 		private readonly UriCatcherInterface $uriCatcher,
 		private readonly string              $project,
 		private readonly string              $minLevel,
+		private readonly bool $stackTrace,
 	) {}
 
 	function write(LogRecord $record): void {
 		if ($record->level->value < $this->minLevel) {
 			return;
 		}
+		$stackTrace = null;
+		if ($this->stackTrace) {
+			$stackTrace = $this->collectFrames($record->formatted);
+		}
 		$data = [
 			"message"     => $record->message,
 			"level"       => $record->level->value,
 			"projectCode" => $this->project,
 			"requestUri"  => $this->uriCatcher->getUri(),
+			'stackTrace' => $stackTrace,
 		];
 		$response = $this->client->request("POST", "/api/log_records", [
 			'headers' => [

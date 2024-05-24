@@ -16,6 +16,7 @@ use Monolog\LogRecord as MonologLogRecord;
 
 class DoctrineWriter implements WriterInterface {
 
+	use CollectCodeFrame;
 
 	public function __construct(
 		private readonly ManagerRegistry     $registry,
@@ -23,6 +24,7 @@ class DoctrineWriter implements WriterInterface {
 		private readonly string              $connection,
 		private readonly string              $project,
 		private readonly string              $minLevel,
+		private readonly bool $stackTrace,
 	) {}
 
 	function write(MonologLogRecord $record): void {
@@ -38,11 +40,16 @@ class DoctrineWriter implements WriterInterface {
 		if (!$project) {
 			throw new Exception("Project '{$this->project}' not found");
 		}
+		$stackTrace = null;
+		if ($this->stackTrace) {
+			$stackTrace = $this->collectFrames($record->formatted);
+		}
 		$record = new LogRecord(
 			$project,
 			$record->message,
 			$record->level->value,
-			$this->uriCatcher->getUri()
+			$this->uriCatcher->getUri(),
+			$stackTrace
 		);
 		$em->persist($record);
 		$em->flush();
