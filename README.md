@@ -11,7 +11,7 @@ of the Composer documentation.
 Open a command console, enter your project directory and execute:
 
 ```console
-$ composer require php-sentinel/bug-catcher-reporter-bundle
+$ composer require php-sentinel/bug-catcher-reporter-bundle:dev-main
 ```
 
 ### Applications that don't use Symfony Flex
@@ -43,7 +43,7 @@ return [
 **If you want save caught errors direct to database**
 
 ```yaml
-# packages/bug_catcher.yaml
+# config/packages/bug_catcher.yaml
 services:
     app.chain_uri_catcher:
         class: BugCatcher\Reporter\UrlCatcher\ChainUriCatcher
@@ -60,7 +60,7 @@ bug_catcher:
 **if you want sent caught errors via http request**
 
 ```yaml
-# packages/bug_catcher.yaml
+# config/packages/bug_catcher.yaml
 framework:
     http_client:
         scoped_clients:
@@ -71,4 +71,20 @@ bug_catcher:
     project: 'dev'
     http_client: 'bug_catcher.client'
     uri_cather: 'bug_catcher.uri_catcher.http_catcher'
+```
+
+**Configure monolog**
+
+```
+composer require symfony/monolog-bundle
+```
+
+```yaml
+# config/packages/monolog.yaml
+monolog:
+    handlers:
+        bug_catcher:
+            type: service
+            id: bug_catcher.handler
+            level: 500
 ```
