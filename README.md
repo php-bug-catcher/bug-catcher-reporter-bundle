@@ -1,4 +1,4 @@
-# Reporter
+# Catch every bug in your Symfony application
 
 ## Installation
 
@@ -11,7 +11,7 @@ of the Composer documentation.
 Open a command console, enter your project directory and execute:
 
 ```console
-$ composer require bug-catcher/reporter
+$ composer require php-sentinel/bug-catcher-reporter-bundle
 ```
 
 ### Applications that don't use Symfony Flex
@@ -22,7 +22,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```console
-$ composer require bug-catcher/reporter
+$ composer require php-sentinel/bug-catcher-reporter-bundle
 ```
 
 #### Step 2: Enable the Bundle
@@ -34,7 +34,41 @@ in the `config/bundles.php` file of your project:
 // config/bundles.php
 
 return [
-    // ...
     BugCatcher\Reporter\BugCatcherReporterBundle::class => ['all' => true],
 ];
+```
+
+### Configuration
+
+**If you want save caught errors direct to database**
+
+```yaml
+# packages/bug_catcher.yaml
+services:
+    app.chain_uri_catcher:
+        class: BugCatcher\Reporter\UrlCatcher\ChainUriCatcher
+        arguments:
+            $uriCatchers:
+                - '@bug_catcher.uri_catcher.http_catcher'
+                - '@bug_catcher.uri_catcher.console_catcher'
+bug_catcher:
+    connection: 'default'
+    project: 'dev'
+    uri_cather: 'app.chain_uri_catcher'
+```
+
+**if you want sent caught errors via http request**
+
+```yaml
+# packages/bug_catcher.yaml
+framework:
+    http_client:
+        scoped_clients:
+            # only requests matching scope will use these options
+            bug_catcher.client:
+                base_uri: 'https://your-bug-catcher-instance:8000'
+bug_catcher:
+    project: 'dev'
+    http_client: 'bug_catcher.client'
+    uri_cather: 'bug_catcher.uri_catcher.http_catcher'
 ```
