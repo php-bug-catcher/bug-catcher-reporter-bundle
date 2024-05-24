@@ -1,8 +1,8 @@
 {
-    "name": "bug-catcher/reporter",
+    "name": "php-sentinel/bug-catcher-reporter-bundle",
     "type": "symfony-bundle",
     "license": "MIT",
-    "description": "Acme bundle description",
+    "description": "A Symfony bundle to report exceptions to Bug Catcher",
     "minimum-stability": "stable",
     "require": {
         "php": ">=8.1",
