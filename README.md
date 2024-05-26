@@ -42,6 +42,9 @@ return [
 
 **If you want save caught errors direct to database**
 
+```
+composer require symfony/http-client
+```
 ```yaml
 # config/packages/bug_catcher.yaml
 services:
