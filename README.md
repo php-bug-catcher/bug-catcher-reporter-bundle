@@ -39,12 +39,8 @@ return [
 ```
 
 ### Configuration
+**if you want sent caught errors via http request**
 
-**If you want save caught errors direct to database**
-
-```
-composer require symfony/http-client
-```
 ```yaml
 # config/packages/bug_catcher.yaml
 services:
@@ -54,16 +50,6 @@ services:
             $uriCatchers:
                 - '@bug_catcher.uri_catcher.http_catcher'
                 - '@bug_catcher.uri_catcher.console_catcher'
-bug_catcher:
-    connection: 'default'
-    project: 'dev'
-    uri_cather: 'app.chain_uri_catcher'
-```
-
-**if you want sent caught errors via http request**
-
-```yaml
-# config/packages/bug_catcher.yaml
 framework:
     http_client:
         scoped_clients:
@@ -73,7 +59,7 @@ framework:
 bug_catcher:
     project: 'dev'
     http_client: 'bug_catcher.client'
-    uri_cather: 'bug_catcher.uri_catcher.http_catcher'
+    uri_cather: 'app.chain_uri_catcher'
 ```
 
 **Configure monolog**
@@ -81,7 +67,6 @@ bug_catcher:
 ```
 composer require symfony/monolog-bundle
 ```
-
 ```yaml
 # config/packages/monolog.yaml
 monolog:
