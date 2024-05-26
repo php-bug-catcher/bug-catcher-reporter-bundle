@@ -13,7 +13,9 @@ class AutowiringTest extends KernelTestCase {
 
 
 	public function testServiceWiring(): void {
-		$kernel = self::bootKernel();
+		$kernel = self::bootKernel([
+			"http_client" => 'bug_catcher.client',
+		]);
 
 		$container = $kernel->getContainer();
 		$handler   = $container->get("bug_catcher.handler");

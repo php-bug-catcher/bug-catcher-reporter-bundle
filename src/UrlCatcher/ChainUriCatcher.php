@@ -17,10 +17,12 @@ class ChainUriCatcher implements UriCatcherInterface {
 
 	public function getUri(): string {
 		foreach ($this->uriCatchers as $uriCatcher) {
-			if ($uriCatcher->isSupported()) {
-				return $uriCatcher->getUri();
+			if ($uriCatcher->isSupported() && ($uri = $uriCatcher->getUri())) {
+				return $uri;
 			}
 		}
+
+		return '';
 	}
 
 	public function isSupported(): bool {

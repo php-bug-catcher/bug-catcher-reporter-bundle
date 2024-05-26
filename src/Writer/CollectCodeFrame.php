@@ -11,7 +11,10 @@ use Kregel\ExceptionProbe\Stacktrace;
 
 trait CollectCodeFrame {
 
-	public function collectFrames(string $stackTrace): string {
+	public function collectFrames(?string $stackTrace): ?string {
+		if ($stackTrace === null) {
+			return null;
+		}
 		$stacktrace = (new Stacktrace())->parse($stackTrace);
 
 		return serialize($stacktrace);

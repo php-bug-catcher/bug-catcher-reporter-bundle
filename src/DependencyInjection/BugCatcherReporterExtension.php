@@ -29,8 +29,9 @@ class BugCatcherReporterExtension extends Extension {
 		$configuration = $this->getConfiguration($configs, $container);
 		$config        = $this->processConfiguration($configuration, $configs);
 
-		if ($config['http_client'] !== null) {
-			$container->removeDefinition('bug_catcher.writer.doctrine_writer');
+		if ($config['writer'] !== null) {
+			$writer = $config['writer'];
+		} elseif ($config['http_client'] !== null) {
 			$writer = 'bug_catcher.writer.http_writer';
 
 			$doctrineWriter = $container->getDefinition('bug_catcher.writer.http_writer');
@@ -40,26 +41,11 @@ class BugCatcherReporterExtension extends Extension {
 			$doctrineWriter->setArgument(3, $config['min_level']);
 			$doctrineWriter->setArgument(4, $config['stack_trace']);
 		} else {
-			if (!class_exists(UuidFactory::class)) {
-				throw new Exception("Please install symfony/uid");
-			}
-			$container->removeDefinition('bug_catcher.writer.http_writer');
-			$writer = 'bug_catcher.writer.doctrine_writer';
-
-			$doctrineWriter = $container->getDefinition('bug_catcher.writer.doctrine_writer');
-			$doctrineWriter->setArgument(0, new Reference('doctrine'));
-			$doctrineWriter->setArgument(1, new Reference($config['uri_cather']));
-			$doctrineWriter->setArgument(2, $config['connection']);
-			$doctrineWriter->setArgument(3, $config['project']);
-			$doctrineWriter->setArgument(4, $config['min_level']);
-			$doctrineWriter->setArgument(5, $config['stack_trace']);
-		}
-		if ($config['writer'] !== null) {
-			$writer = $config['writer'];
+			throw new Exception('You must set writer or http_client');
 		}
 		$container->setAlias('bug_catcher.writer', $writer);
 
-		if (class_exists(RequestStack::class)) {
+		if (!class_exists(RequestStack::class)) {
 			$container->removeDefinition('bug_catcher.url_catcher.console_uri_catcher');
 		}
 
