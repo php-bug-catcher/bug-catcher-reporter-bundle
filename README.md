@@ -40,7 +40,9 @@ return [
 
 ### Configuration
 **if you want sent caught errors via http request**
-
+```
+composer require symfony/http-client
+```
 ```yaml
 # config/packages/bug_catcher.yaml
 services:
