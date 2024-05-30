@@ -31,8 +31,13 @@ class HttpWriter implements WriterInterface {
 		if ($this->stackTrace) {
 			$stackTrace = $this->collectFrames($record->formatted);
 		}
+		$message = strtr($record->message, array_reduce(array_keys($record->context), function ($acc, $key) use ($record) {
+			$acc["{{$key}}"] = $record->context[$key];
+
+			return $acc;
+		}, []));
 		$data = [
-			"message"     => $record->message,
+			"message" => $message,
 			"level"       => $record->level->value,
 			"projectCode" => $this->project,
 			"requestUri"  => $this->uriCatcher->getUri(),
