@@ -36,7 +36,7 @@ class HttpWriter implements WriterInterface {
 
 			return $acc;
 		}, []));
-		$path = '/api/records_logs';
+		$path = '/api/record_logs';
 		$data = [
 			"message" => $message,
 			"level"       => $record->level->value,
@@ -44,7 +44,7 @@ class HttpWriter implements WriterInterface {
 			"requestUri"  => $this->uriCatcher->getUri(),
 		];
 		if ($stackTrace) {
-			$path               = '/api/records_logs_traces';
+			$path = '/api/record_log_traces';
 			$data['stackTrace'] = $stackTrace;
 		}
 		$response = $this->client->request("POST", $path, [
