@@ -36,14 +36,18 @@ class HttpWriter implements WriterInterface {
 
 			return $acc;
 		}, []));
+		$path = '/api/records_logs';
 		$data = [
 			"message" => $message,
 			"level"       => $record->level->value,
 			"projectCode" => $this->project,
 			"requestUri"  => $this->uriCatcher->getUri(),
-			'stackTrace' => $stackTrace,
 		];
-		$response = $this->client->request("POST", "/api/log_records", [
+		if ($stackTrace) {
+			$path               = '/api/records_logs_traces';
+			$data['stackTrace'] = $stackTrace;
+		}
+		$response = $this->client->request("POST", $path, [
 			'headers' => [
 				'Content-Type' => 'application/json',
 				'accept'       => 'application/json',
