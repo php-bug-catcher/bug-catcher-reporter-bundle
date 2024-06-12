@@ -6,9 +6,11 @@
 
     <services>
         <!-- Explicitly configure the service -->
+        <service id="bug_catcher" class="BugCatcher\Reporter\Service\BugCatcher" public="false"/>
         <service id="bug_catcher.handler" class="BugCatcher\Reporter\Service\BugCatcherMonologHandler" public="true"/>
         <service id="BugCatcher\Reporter\Service\BugCatcherMonologHandler" alias="bug_catcher.handler" public="false"/>
         <service id="bug_catcher.writer" alias="bug_catcher.writer.http_writer"/>
+        <service id="BugCatcher\Reporter\Service\BugCatcherInterface" alias="bug_catcher" public="true"/>
 
         <service id="bug_catcher.writer.http_writer" class="BugCatcher\Reporter\Writer\HttpWriter" public="true"/>
 

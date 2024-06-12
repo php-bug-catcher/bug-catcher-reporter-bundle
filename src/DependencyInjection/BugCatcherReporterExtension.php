@@ -7,6 +7,7 @@
  */
 namespace BugCatcher\Reporter\DependencyInjection;
 
+use BugCatcher\Reporter\Service\BugCatcherInterface;
 use BugCatcher\Reporter\Writer\DoctrineWriter;
 use BugCatcher\Reporter\Writer\HttpWriter;
 use Exception;
@@ -41,12 +42,19 @@ class BugCatcherReporterExtension extends Extension {
 		}
 		$container->setAlias('bug_catcher.writer', $writer);
 
+		$bugCatcher = $container->getDefinition('bug_catcher');
+		$bugCatcher->setArgument(0, new Reference('bug_catcher.writer'));
+		$bugCatcher->setArgument(1, new Reference($config['uri_cather']));
+		$bugCatcher->setArgument(2, $config['project']);
+		$bugCatcher->setArgument(3, $config['stack_trace']);
+		$bugCatcher->setArgument(4, $config['min_level']);
+
+
+
 		$monologHandler = $container->getDefinition('bug_catcher.handler');
-		$monologHandler->setArgument(0, new Reference('bug_catcher.writer'));
-		$monologHandler->setArgument(1, new Reference($config['uri_cather']));
-		$monologHandler->setArgument(2, $config['project']);
-		$monologHandler->setArgument(3, $config['stack_trace']);
-		$monologHandler->setArgument(4, $config['min_level']);
+		$monologHandler->setArgument(0, new Reference(BugCatcherInterface::class));
+		$monologHandler->setArgument(1, $config['stack_trace']);
+		$monologHandler->setArgument(2, $config['min_level']);
 
 		if (!class_exists(RequestStack::class)) {
 			$container->removeDefinition('bug_catcher.url_catcher.console_uri_catcher');

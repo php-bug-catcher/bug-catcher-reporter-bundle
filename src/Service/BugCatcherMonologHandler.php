@@ -18,9 +18,7 @@ class BugCatcherMonologHandler extends AbstractProcessingHandler {
 
 
 	public function __construct(
-		private readonly WriterInterface     $writer,
-		private readonly UriCatcherInterface $uriCatcher,
-		private readonly string              $project,
+		private readonly BugCatcherInterface $bugCatcher,
 		private readonly bool                $stackTrace,
 		private readonly string              $minLevel
 	) {
@@ -41,15 +39,10 @@ class BugCatcherMonologHandler extends AbstractProcessingHandler {
 
 			return $acc;
 		}, []));
-		$data    = [
-			"message"     => $message,
-			"level"       => $record->level->value,
-			"projectCode" => $this->project,
-			"requestUri"  => $this->uriCatcher->getUri(),
-		];
+		$data = [];
 		if ($stackTrace) {
 			$data['stackTrace'] = $stackTrace;
 		}
-		$this->writer->write($data);
+		$this->bugCatcher->logRecord($message, $record->level->value, null, $data);
 	}
 }
