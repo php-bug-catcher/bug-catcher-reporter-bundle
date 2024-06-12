@@ -1,5 +1,8 @@
-# Catch every bug in your Symfony application
+<p align="center">
+<img src="docs/logo/horizontal.svg" width="600"><br>
+</p>
 
+# Catch every bug in your Symfony application
 ## Installation
 
 Make sure Composer is installed globally, as explained in the
@@ -11,7 +14,7 @@ of the Composer documentation.
 Open a command console, enter your project directory and execute:
 
 ```console
-$ composer require php-sentinel/bug-catcher-reporter-bundle:dev-main
+$ composer require php-sentinel/bug-catcher-reporter-bundle
 ```
 
 ### Applications that don't use Symfony Flex
@@ -64,7 +67,7 @@ bug_catcher:
     uri_cather: 'app.chain_uri_catcher'
 ```
 
-**Configure monolog**
+### Automatic logging by monolog
 
 ```
 composer require symfony/monolog-bundle
@@ -77,4 +80,25 @@ monolog:
             type: service
             id: bug_catcher.handler
             level: 500
+```
+
+### Custom Logging
+
+```php
+class Foo {
+	public function __construct(private readonly BugCatcherInterface $bugCatcher) {
+		
+	}
+	
+	public function foo():void {
+		$this->bugCatcher->log([
+			"message"     => "My message",
+			"level"       => 500,
+			"projectCode" => "dev",
+			"requestUri"  => "my uri",
+		]);
+		$this->bugCatcher->logRecord("My log record", 500);
+		$this->bugCatcher->logException(new \Exception("My Exception"));
+	}
+}
 ```
