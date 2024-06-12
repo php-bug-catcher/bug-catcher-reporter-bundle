@@ -36,14 +36,17 @@ class BugCatcherReporterExtension extends Extension {
 
 			$doctrineWriter = $container->getDefinition('bug_catcher.writer.http_writer');
 			$doctrineWriter->setArgument(0, new Reference($config['http_client']));
-			$doctrineWriter->setArgument(1, new Reference($config['uri_cather']));
-			$doctrineWriter->setArgument(2, $config['project']);
-			$doctrineWriter->setArgument(3, $config['min_level']);
-			$doctrineWriter->setArgument(4, $config['stack_trace']);
 		} else {
 			throw new Exception('You must set writer or http_client');
 		}
 		$container->setAlias('bug_catcher.writer', $writer);
+
+		$monologHandler = $container->getDefinition('bug_catcher.handler');
+		$monologHandler->setArgument(0, new Reference('bug_catcher.writer'));
+		$monologHandler->setArgument(1, new Reference($config['uri_cather']));
+		$monologHandler->setArgument(2, $config['project']);
+		$monologHandler->setArgument(3, $config['stack_trace']);
+		$monologHandler->setArgument(4, $config['min_level']);
 
 		if (!class_exists(RequestStack::class)) {
 			$container->removeDefinition('bug_catcher.url_catcher.console_uri_catcher');

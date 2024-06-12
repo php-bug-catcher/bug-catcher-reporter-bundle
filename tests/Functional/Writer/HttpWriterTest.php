@@ -7,6 +7,7 @@
  */
 namespace BugCatcher\Reporter\Tests\Functional\Writer;
 
+use BugCatcher\Reporter\Service\BugCatcherMonologHandler;
 use BugCatcher\Reporter\Tests\Functional\KernelTestCase;
 use BugCatcher\Reporter\Writer\HttpWriter;
 use DateTimeImmutable;
@@ -19,8 +20,8 @@ class HttpWriterTest extends KernelTestCase {
 		$kernel = self::bootKernel([
 			"http_client" => 'bug_catcher.client',
 		]);
-		$writer = $kernel->getContainer()->get('bug_catcher.writer.http_writer');
-		$this->assertInstanceOf(HttpWriter::class, $writer);
+		$writer = $kernel->getContainer()->get('bug_catcher.handler');
+		$this->assertInstanceOf(BugCatcherMonologHandler::class, $writer);
 
 		$record = new LogRecord(
 			new DateTimeImmutable(),
@@ -28,7 +29,7 @@ class HttpWriterTest extends KernelTestCase {
 			Level::Critical,
 			"Exception:"
 		);
-		$writer->write($record);
+		$writer->handle($record);
 		$this->assertTrue(true);
 	}
 }

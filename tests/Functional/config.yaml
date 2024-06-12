@@ -14,7 +14,7 @@ framework:
     http_client:
         scoped_clients:
             bug_catcher.client:
-                base_uri: 'https://127.0.0.1:8000'
+                base_uri: 'https://127.0.0.1:8001'
                 headers:
 when@test:
     doctrine:

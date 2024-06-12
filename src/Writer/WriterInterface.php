@@ -10,5 +10,5 @@ namespace BugCatcher\Reporter\Writer;
 use Monolog\LogRecord;
 
 interface WriterInterface {
-	function write(LogRecord $record): void;
+	function write(array $data): void;
 }

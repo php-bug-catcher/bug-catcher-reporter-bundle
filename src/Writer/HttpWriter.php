@@ -13,40 +13,12 @@ use Monolog\LogRecord;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class HttpWriter implements WriterInterface {
-	use CollectCodeFrame;
-
 	public function __construct(
 		private readonly HttpClientInterface $client,
-		private readonly UriCatcherInterface $uriCatcher,
-		private readonly string              $project,
-		private readonly string              $minLevel,
-		private readonly bool $stackTrace,
 	) {}
 
-	function write(LogRecord $record): void {
-		if ($record->level->value < $this->minLevel) {
-			return;
-		}
-		$stackTrace = null;
-		if ($this->stackTrace) {
-			$stackTrace = $this->collectFrames($record->formatted);
-		}
-		$message = strtr($record->message, array_reduce(array_keys($record->context), function ($acc, $key) use ($record) {
-			$acc["{{$key}}"] = $record->context[$key];
-
-			return $acc;
-		}, []));
-		$path = '/api/record_logs';
-		$data = [
-			"message" => $message,
-			"level"       => $record->level->value,
-			"projectCode" => $this->project,
-			"requestUri"  => $this->uriCatcher->getUri(),
-		];
-		if ($stackTrace) {
-			$path = '/api/record_log_traces';
-			$data['stackTrace'] = $stackTrace;
-		}
+	function write(array $data): void {
+		$path = $data['stackTrace']??false ? "/api/record_log_traces" : "/api/record_logs";
 		$response = $this->client->request("POST", $path, [
 			'headers' => [
 				'Content-Type' => 'application/json',

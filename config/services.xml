@@ -6,10 +6,8 @@
 
     <services>
         <!-- Explicitly configure the service -->
-        <service id="bug_catcher.handler" class="BugCatcher\Reporter\Service\BugCatcherHandler" public="true">
-            <argument type="service" id="bug_catcher.writer"/>
-        </service>
-        <service id="BugCatcher\Reporter\Service\BugCatcherHandler" alias="bug_catcher.handler" public="false"/>
+        <service id="bug_catcher.handler" class="BugCatcher\Reporter\Service\BugCatcherMonologHandler" public="true"/>
+        <service id="BugCatcher\Reporter\Service\BugCatcherMonologHandler" alias="bug_catcher.handler" public="false"/>
         <service id="bug_catcher.writer" alias="bug_catcher.writer.http_writer"/>
 
         <service id="bug_catcher.writer.http_writer" class="BugCatcher\Reporter\Writer\HttpWriter" public="true"/>
