@@ -31,6 +31,7 @@ class BugCatcher implements BugCatcherInterface {
 
 	public function logRecord(string $message, int $level, ?string $requestUri = null, array $additional = []): void {
 		$this->writer->write([
+				"api_uri" => "/api/record_logs",
 				"message"     => $message,
 				"level"       => $level,
 				"projectCode" => $this->project,
@@ -44,6 +45,7 @@ class BugCatcher implements BugCatcherInterface {
 			$stackTrace = $this->collectFrames($throwable->getTraceAsString());
 		}
 		$data = [
+			"api_uri" => "/api/record_log_traces",
 			"message"     => $throwable->getMessage(),
 			"level"       => $level,
 			"projectCode" => $this->project,

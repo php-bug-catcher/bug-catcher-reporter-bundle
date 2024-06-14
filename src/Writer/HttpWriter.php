@@ -18,7 +18,11 @@ class HttpWriter implements WriterInterface {
 	) {}
 
 	function write(array $data): void {
-		$path = $data['stackTrace']??false ? "/api/record_log_traces" : "/api/record_logs";
+		if (!array_key_exists("api_uri", $data)) {
+			throw new Exception("api_uri not porvided for logging to bugcatcher");
+		}
+		$path = $data["api_uri"];
+		unset($data["api_uri"]);
 		$response = $this->client->request("POST", $path, [
 			'headers' => [
 				'Content-Type' => 'application/json',
