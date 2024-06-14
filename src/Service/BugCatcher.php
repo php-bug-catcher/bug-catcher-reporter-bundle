@@ -23,6 +23,9 @@ class BugCatcher implements BugCatcherInterface {
 	) {}
 
 	public function log(array $data): void {
+		if (!array_key_exists("projectCode", $data)) {
+			$data["projectCode"] = $this->project;
+		}
 		$this->writer->write($data);
 	}
 
