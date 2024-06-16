@@ -32,7 +32,7 @@ class BugCatcher implements BugCatcherInterface {
 	public function logRecord(string $message, int $level, ?string $requestUri = null, array $additional = []): void {
 		$this->writer->write([
 				"api_uri" => "/api/record_logs",
-				"message"     => $message,
+				"message" => substr($message, 0, 750),
 				"level"       => $level,
 				"projectCode" => $this->project,
 				"requestUri"  => $requestUri??$this->uriCatcher->getUri(),
@@ -46,7 +46,7 @@ class BugCatcher implements BugCatcherInterface {
 		}
 		$data = [
 			"api_uri" => "/api/record_log_traces",
-			"message"     => $throwable->getMessage(),
+			"message" => substr($throwable->getMessage(), 0, 750),
 			"level"       => $level,
 			"projectCode" => $this->project,
 			"requestUri"  => $requestUri??$this->uriCatcher->getUri(),
