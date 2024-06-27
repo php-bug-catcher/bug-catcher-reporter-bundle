@@ -42,6 +42,7 @@ class BugCatcherMonologHandler extends AbstractProcessingHandler {
 		$data = [];
 		if ($stackTrace) {
 			$data['stackTrace'] = $stackTrace;
+			$data['api_uri'] = "/api/record_log_traces";
 		}
 		$this->bugCatcher->logRecord($message, $record->level->value, null, $data);
 	}
