@@ -8,8 +8,8 @@
         "php": ">=8.1",
         "kregel/exception-probe": "^1.0",
         "monolog/monolog": "^1.22 || ^2.0 || ^3.0",
-        "symfony/dependency-injection": "4.4|^5.4|^6.4|^7.0",
-        "symfony/framework-bundle": "4.4|^5.4|^6.4|^7.0",
+        "symfony/dependency-injection": "^4.4|^5.4|^6.4|^7.0",
+        "symfony/framework-bundle": "^4.4|^5.4|^6.4|^7.0",
         "symfony/monolog-bundle": "^3.1"
     },
     "config": {
