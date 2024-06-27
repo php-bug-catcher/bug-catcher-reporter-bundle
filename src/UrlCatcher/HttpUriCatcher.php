@@ -16,7 +16,7 @@ class HttpUriCatcher implements UriCatcherInterface {
 	) {}
 
 	public function getUri(): string {
-		$request = $this->requestStack->getMainRequest();
+		$request = $this->requestStack->getMasterRequest();
 		if (!$request) {
 			return "";
 		}
@@ -25,6 +25,6 @@ class HttpUriCatcher implements UriCatcherInterface {
 	}
 
 	public function isSupported(): bool {
-		return $this->requestStack->getMainRequest() !== null;
+		return $this->requestStack->getMasterRequest() !== null;
 	}
 }

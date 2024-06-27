@@ -13,7 +13,7 @@ use Throwable;
 
 class ErrorFormater extends LineFormatter {
 
-	protected function normalizeException(Throwable $e, int $depth = 0): string {
+	protected function normalizeException($e): string {
 		$stackTrace = $e->getTraceAsString();
 		$stackTrace = "#0 " . $e->getFile() . "(" . $e->getLine() . "): " . $e->getMessage() . "\n" . $stackTrace;
 

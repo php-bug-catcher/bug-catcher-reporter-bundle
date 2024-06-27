@@ -30,13 +30,13 @@ class BugCatcher implements BugCatcherInterface {
 	}
 
 	public function logRecord(string $message, int $level, ?string $requestUri = null, array $additional = []): void {
-		$this->writer->write([
+		$this->writer->write($additional + [
 				"api_uri" => "/api/record_logs",
 				"message" => substr($message, 0, 750),
 				"level"       => $level,
 				"projectCode" => $this->project,
 				"requestUri"  => $requestUri??$this->uriCatcher->getUri(),
-			] + $additional);
+			]);
 	}
 
 	public function logException(\Throwable $throwable, int $level = 500, ?string $requestUri = null): void {

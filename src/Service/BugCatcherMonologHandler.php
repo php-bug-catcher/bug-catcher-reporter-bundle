@@ -23,26 +23,28 @@ class BugCatcherMonologHandler extends AbstractProcessingHandler {
 		private readonly string              $minLevel
 	) {
 		parent::__construct();
-		$this->formatter = new ErrorFormater(includeStacktraces: true);
+		$this->formatter = new ErrorFormater();
+		$this->formatter->includeStacktraces();
 	}
 
-	protected function write(LogRecord $record): void {
-		if ($record->level->value < $this->minLevel) {
+	protected function write(array $record): void {
+		if ($record['level'] < $this->minLevel) {
 			return;
 		}
 		$stackTrace = null;
 		if ($this->stackTrace) {
-			$stackTrace = $this->collectFrames($record->formatted);
+			$stackTrace = $this->collectFrames($record['formatted']);
 		}
-		$message = strtr($record->message, array_reduce(array_keys($record->context), function ($acc, $key) use ($record) {
-			$acc["{{$key}}"] = $record->context[$key];
+		$message             = strtr($record['message'], array_reduce(array_keys($record['context']), function ($acc, $key) use ($record) {
+			$acc["{{$key}}"] = $record['context'][$key];
 
 			return $acc;
 		}, []));
 		$data = [];
 		if ($stackTrace) {
 			$data['stackTrace'] = $stackTrace;
+			$data['api_uri'] = "/api/record_log_traces";
 		}
-		$this->bugCatcher->logRecord($message, $record->level->value, null, $data);
+		$this->bugCatcher->logRecord($message, $record['level'], null, $data);
 	}
 }
