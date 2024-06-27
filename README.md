@@ -17,6 +17,13 @@ Open a command console, enter your project directory and execute:
 $ composer require php-sentinel/bug-catcher-reporter-bundle
 ```
 
+#### versions
+
+| BugCatcher |   Symfony   |
+|:----------:|:-----------:|
+|     v1     |     4.4     |
+|     v2     | 5.4,6.4,7.0 |
+
 ### Applications that don't use Symfony Flex
 
 #### Step 1: Download the Bundle
