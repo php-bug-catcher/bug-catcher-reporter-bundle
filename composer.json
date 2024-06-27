@@ -10,7 +10,7 @@
         "monolog/monolog": "^1.22 || ^2.0",
         "symfony/dependency-injection": "^4.4",
         "symfony/framework-bundle": "^4.4",
-        "symfony/monolog-bundle": "v3.8.0"
+        "symfony/monolog-bundle": "^v3.8.0"
     },
     "config": {
         "sort-packages": true
