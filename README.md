@@ -1,3 +1,6 @@
+![Tests](https://github.com/php-bug-catcher/reporter-bundle/actions/workflows/symfony.yml/badge.svg)
+
+
 <p align="center">
 <img src="docs/logo/horizontal.svg" width="600"><br>
 </p>
@@ -14,7 +17,7 @@ of the Composer documentation.
 Open a command console, enter your project directory and execute:
 
 ```console
-$ composer require php-sentinel/bug-catcher-reporter-bundle
+$ composer require php-sentinel/reporter-bundle
 ```
 
 #### versions

@@ -1,5 +1,5 @@
 {
-    "name": "php-bug-catcher/bug-catcher-reporter-bundle",
+    "name": "php-bug-catcher/reporter-bundle",
     "type": "symfony-bundle",
     "license": "MIT",
     "description": "A Symfony bundle to report exceptions to Bug Catcher",
