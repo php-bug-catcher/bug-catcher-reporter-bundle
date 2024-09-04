@@ -32,5 +32,8 @@
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+        <listener class="VCR\PHPUnit\TestListener\VCRTestListener"
+                  file="vendor/php-vcr/phpunit-testlistener-vcr/src/VCRTestListener.php"/>
     </listeners>
+
 </phpunit>

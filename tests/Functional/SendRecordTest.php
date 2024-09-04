@@ -11,14 +11,20 @@ namespace BugCatcher\Reporter\Tests\Functional;
 
 use BugCatcher\Reporter\Service\BugCatcherInterface;
 use BugCatcher\Reporter\Tests\App\KernelTestCase;
+use BugCatcher\Reporter\Writer\HttpWriter;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 class SendRecordTest extends KernelTestCase
 {
-    /**
-     * @vcr unittest_annotation_test
-     */
     public function testBugCatcher()
     {
+        $responses = [
+            new MockResponse([]),
+        ];
+
+        $client = new MockHttpClient($responses);
+        $this->getContainer()->set(HttpWriter::class, new HttpWriter($client));
         /** @var BugCatcherInterface $bugCatcher */
         $bugCatcher = $this->getContainer()->get(BugCatcherInterface::class);
         $bugCatcher->log([
