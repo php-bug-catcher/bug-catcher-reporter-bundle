@@ -9,6 +9,7 @@
         "kregel/exception-probe": "^1.0",
         "monolog/monolog": "^3.0",
         "symfony/dependency-injection": "^5.4|^6.4|^7.0",
+        "symfony/event-dispatcher": "^6.4",
         "symfony/framework-bundle": "^5.4|^6.4|^7.0",
         "symfony/monolog-bundle": "^3.10"
     },
@@ -27,6 +28,7 @@
     },
     "require-dev": {
         "doctrine/common": "^3.4",
+        "php-vcr/php-vcr": "^1.7",
         "phpunit/phpunit": "^9.5",
         "symfony/dotenv": "^5.4|^6.4|^7.0",
         "symfony/http-client": "^5.4|^6.4|^7.0",

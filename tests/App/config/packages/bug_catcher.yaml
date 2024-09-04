@@ -1,4 +1,3 @@
-parameters:
 services:
     app.chain_uri_catcher:
         class: BugCatcher\Reporter\UrlCatcher\ChainUriCatcher
@@ -6,18 +5,13 @@ services:
             $uriCatchers:
                 - '@bug_catcher.uri_catcher.http_catcher'
                 - '@bug_catcher.uri_catcher.console_catcher'
-bug_catcher:
-    project: 'dev'
-    uri_cather: 'app.chain_uri_catcher'
-
 framework:
     http_client:
         scoped_clients:
+            # only requests matching scope will use these options
             bug_catcher.client:
-                base_uri: 'https://127.0.0.1:8001'
-                headers:
-when@test:
-    doctrine:
-        dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
-            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+                base_uri: '%env(BUG_CATCHER_URI)%'
+bug_catcher:
+    project: 'dev'
+    http_client: 'bug_catcher.client'
+    uri_cather: 'app.chain_uri_catcher'

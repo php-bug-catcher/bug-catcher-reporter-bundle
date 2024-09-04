@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+  BugCatcher\Reporter\Tests\App\:
+    resource: '../'
+    exclude:
+      - '../config/'
+      - '../Factory/'
+      - '../Entity/'
+      - '../src/Kernel.php'
+      - '../src/KernelTestCase.php'
+

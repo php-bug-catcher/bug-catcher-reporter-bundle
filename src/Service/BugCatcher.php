@@ -7,18 +7,21 @@
  */
 namespace BugCatcher\Reporter\Service;
 
+use BugCatcher\Reporter\Event\RecordWriteEvent;
 use BugCatcher\Reporter\UrlCatcher\UriCatcherInterface;
 use BugCatcher\Reporter\Writer\CollectCodeFrame;
 use BugCatcher\Reporter\Writer\WriterInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 class BugCatcher implements BugCatcherInterface {
-	use CollectCodeFrame;
 
 	public function __construct(
 		private readonly WriterInterface     $writer,
 		private readonly UriCatcherInterface $uriCatcher,
+        private readonly EventDispatcherInterface $eventDispatcher,
 		private readonly string              $project,
-		private readonly bool                $stackTrace,
 		private readonly string              $minLevel
 	) {}
 
@@ -26,24 +29,24 @@ class BugCatcher implements BugCatcherInterface {
 		if (!array_key_exists("projectCode", $data)) {
 			$data["projectCode"] = $this->project;
 		}
-		$this->writer->write($data);
+        $event = $this->eventDispatcher->dispatch(new RecordWriteEvent($data));
+        $this->writer->write($event->getData());
 	}
 
 	public function logRecord(string $message, int $level, ?string $requestUri = null, array $additional = []): void {
-		$this->writer->write($additional + [
-				"api_uri" => "/api/record_logs",
-				"message" => substr($message, 0, 750),
-				"level"       => $level,
-				"projectCode" => $this->project,
-				"requestUri"  => $requestUri??$this->uriCatcher->getUri(),
-			]);
+        $data = $additional + [
+                "api_uri" => "/api/record_logs",
+                "message" => substr($message, 0, 750),
+                "level" => $level,
+                "projectCode" => $this->project,
+                "requestUri" => $requestUri ?? $this->uriCatcher->getUri(),
+            ];
+        $event = $this->eventDispatcher->dispatch(new RecordWriteEvent($data));
+        $this->writer->write($event->getData());
 	}
 
-	public function logException(\Throwable $throwable, int $level = 500, ?string $requestUri = null): void {
-		$stackTrace = null;
-		if ($this->stackTrace) {
-			$stackTrace = $this->collectFrames($throwable->getTraceAsString());
-		}
+	public function logException(Throwable $throwable, int $level = 500, ?string $requestUri = null): void {
+
 		$data = [
 			"api_uri" => "/api/record_log_traces",
 			"message" => substr($throwable->getMessage(), 0, 750),
@@ -51,9 +54,7 @@ class BugCatcher implements BugCatcherInterface {
 			"projectCode" => $this->project,
 			"requestUri"  => $requestUri??$this->uriCatcher->getUri(),
 		];
-		if ($stackTrace) {
-			$data['stackTrace'] = $stackTrace;
-		}
-		$this->writer->write($data);
+        $event = $this->eventDispatcher->dispatch(new RecordWriteEvent($data, $throwable));
+        $this->writer->write($event->getData());
 	}
 }

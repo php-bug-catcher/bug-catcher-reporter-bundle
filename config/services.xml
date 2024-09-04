@@ -17,6 +17,9 @@
         <service id="bug_catcher.uri_catcher.http_catcher" class="BugCatcher\Reporter\UrlCatcher\HttpUriCatcher" public="true">
             <argument type="service" id="request_stack"/>
         </service>
+        <service id="BugCatcher\Reporter\Event\WriteStackTraceListener">
+            <tag name="kernel.event_listener"/>
+        </service>
         <service id="bug_catcher.uri_catcher.console_catcher" class="BugCatcher\Reporter\UrlCatcher\ConsoleUriCatcher" public="true"/>
     </services>
 </container>
