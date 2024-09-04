@@ -5,6 +5,8 @@ services:
             $uriCatchers:
                 - '@bug_catcher.uri_catcher.http_catcher'
                 - '@bug_catcher.uri_catcher.console_catcher'
+    test.writer:
+        class: BugCatcher\Reporter\Tests\App\Service\VoidWriter
 framework:
     http_client:
         scoped_clients:
@@ -15,3 +17,4 @@ bug_catcher:
     project: 'dev'
     http_client: 'bug_catcher.client'
     uri_cather: 'app.chain_uri_catcher'
+    writer: 'test.writer'
