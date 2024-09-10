@@ -1,5 +1,5 @@
 ![Tests](https://github.com/php-bug-catcher/reporter-bundle/actions/workflows/symfony.yml/badge.svg)
-
+[![Coverage Status](https://coveralls.io/repos/github/php-bug-catcher/reporter-bundle/badge.svg?branch=main)](https://coveralls.io/github/php-bug-catcher/reporter-bundle?branch=main)
 
 <p align="center">
 <img src="docs/logo/horizontal.svg" width="600"><br>
