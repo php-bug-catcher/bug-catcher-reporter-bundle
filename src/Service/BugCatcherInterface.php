@@ -7,10 +7,12 @@
  */
 namespace BugCatcher\Reporter\Service;
 
+use Throwable;
+
 interface BugCatcherInterface {
 	public function log(array $data): void;
 
 	public function logRecord(string $message, int $level, ?string $requestUri = null, array $additional = []): void;
 
-	public function logException(\Throwable $throwable, int $level = 500, ?string $requestUri = null): void;
+	public function logException(Throwable $throwable, int $level = 500, ?string $requestUri = null, ?string $meCode = null): void;
 }

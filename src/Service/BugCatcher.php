@@ -45,7 +45,7 @@ class BugCatcher implements BugCatcherInterface {
         $this->writer->write($event->getData());
 	}
 
-	public function logException(Throwable $throwable, int $level = 500, ?string $requestUri = null): void {
+	public function logException(Throwable $throwable, int $level = 500, ?string $requestUri = null, ?string $meCode = null): void {
 
 		$data = [
 			"api_uri" => "/api/record_log_traces",
@@ -54,6 +54,9 @@ class BugCatcher implements BugCatcherInterface {
 			"projectCode" => $this->project,
 			"requestUri"  => $requestUri??$this->uriCatcher->getUri(),
 		];
+		if ($meCode) {
+			$data["code"] = $meCode;
+		}
         $event = $this->eventDispatcher->dispatch(new RecordWriteEvent($data, $throwable));
         $this->writer->write($event->getData());
 	}
