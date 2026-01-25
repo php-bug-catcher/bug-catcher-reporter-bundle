@@ -6,6 +6,18 @@
 </p>
 
 # Catch every bug in your Symfony application
+
+This package is used to send errors from your Symfony application to the [Bug Catcher](https://github.com/php-bug-catcher/bug-catcher) tool.
+
+**Bug Catcher** is a central dashboard for tracking all errors in your PHP applications in one place. It offers features such as:
+
+- **Ping collector** – monitoring the availability of your projects.
+- **Log viewer** – log viewer with stack trace and code preview.
+- **Configurable notifications** – alerts via email, sound, or other channels.
+- **Access control** – ability to grant clients access to specific projects.
+
+For more information, visit the main project: [https://github.com/php-bug-catcher/bug-catcher](https://github.com/php-bug-catcher/bug-catcher)
+
 ## Installation
 
 Make sure Composer is installed globally, as explained in the
@@ -22,10 +34,10 @@ $ composer require php-sentinel/reporter-bundle
 
 #### versions
 
-| BugCatcher |   Symfony   |
-|:----------:|:-----------:|
-|     v1     |     4.4     |
-|     v2     | 5.4,6.4,7.0 |
+| BugCatcher |     Symfony     |
+|:----------:|:---------------:|
+|     v1     |       4.4       |
+|     v2     | 5.4,6.4,7.4,8.0 |
 
 ### Applications that don't use Symfony Flex
 
@@ -52,7 +64,8 @@ return [
 ```
 
 ### Configuration
-**if you want sent caught errors via http request**
+
+**If you want to send caught errors via HTTP request**
 ```
 composer require symfony/http-client
 ```
@@ -74,10 +87,10 @@ framework:
 bug_catcher:
     project: 'dev'
     http_client: 'bug_catcher.client'
-    uri_cather: 'app.chain_uri_catcher'
+    uri_catcher: 'app.chain_uri_catcher'
 ```
 
-### Automatic logging by monolog
+### Automatic logging by Monolog
 
 ```
 composer require symfony/monolog-bundle
