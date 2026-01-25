@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface {
 			->integerNode("min_level")->defaultValue(500)->end()
 			->scalarNode("http_client")->defaultNull()->end()
 //			->scalarNode("connection")->defaultValue("default")->end()
-			->scalarNode("uri_cather")->defaultNull()->end()
+			->scalarNode("uri_catcher")->defaultNull()->end()
 			->booleanNode("stack_trace")->defaultTrue()->end()
 			->scalarNode("writer")->defaultNull()->end()
 			->end();

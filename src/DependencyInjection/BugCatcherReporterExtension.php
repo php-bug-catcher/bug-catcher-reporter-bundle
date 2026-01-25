@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,9 +26,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BugCatcherReporterExtension extends Extension {
 
-	public function load(array $configs, ContainerBuilder $container) {
-		$loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
-		$loader->load('services.xml');
+	public function load(array $configs, ContainerBuilder $container): void {
+		$loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
+		$loader->load('services.php');
 
 		$configuration = $this->getConfiguration($configs, $container);
 		$config        = $this->processConfiguration($configuration, $configs);
@@ -47,7 +47,7 @@ class BugCatcherReporterExtension extends Extension {
 
 		$bugCatcher = $container->getDefinition('bug_catcher');
 		$bugCatcher->setArgument(0, new Reference('bug_catcher.writer'));
-		$bugCatcher->setArgument(1, new Reference($config['uri_cather']));
+		$bugCatcher->setArgument(1, new Reference($config['uri_catcher']));
         $bugCatcher->setArgument(2, new Reference(EventDispatcherInterface::class));
         $bugCatcher->setArgument(3, $config['project']);
 		$bugCatcher->setArgument(4, $config['min_level']);

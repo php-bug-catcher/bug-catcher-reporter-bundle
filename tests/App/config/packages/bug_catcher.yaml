@@ -16,5 +16,5 @@ framework:
 bug_catcher:
     project: 'dev'
     http_client: 'bug_catcher.client'
-    uri_cather: 'app.chain_uri_catcher'
+    uri_catcher: 'app.chain_uri_catcher'
     writer: 'test.writer'
