@@ -25,7 +25,7 @@ class WriteStackTraceListener
         $data = $event->getData();
         if ($event->throwable) {
             if ($this->stackTrace) {
-                $stackTrace = $this->collectFrames($event->throwable->getTraceAsString());
+                $stackTrace = $this->collectThrowableFrames($event->throwable);
                 if ($stackTrace) {
                     $data['stackTrace'] = $stackTrace;
                 }
