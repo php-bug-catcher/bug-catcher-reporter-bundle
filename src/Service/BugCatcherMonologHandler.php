@@ -12,6 +12,7 @@ use BugCatcher\Reporter\Writer\CollectCodeFrame;
 use BugCatcher\Reporter\Writer\WriterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
+use Throwable;
 
 class BugCatcherMonologHandler extends AbstractProcessingHandler {
 	use CollectCodeFrame;
@@ -32,7 +33,10 @@ class BugCatcherMonologHandler extends AbstractProcessingHandler {
 		}
 		$stackTrace = null;
 		if ($this->stackTrace) {
-			$stackTrace = $this->collectFrames($record->formatted);
+			$exception = $record->context['exception'] ?? null;
+			$stackTrace = $exception instanceof Throwable
+				? $this->collectThrowableFrames($exception)
+				: $this->collectFrames($record->formatted);
 		}
 		$message = strtr($record->message, array_reduce(array_keys($record->context), function ($acc, $key) use ($record) {
 			$acc["{{$key}}"] = $record->context[$key];
